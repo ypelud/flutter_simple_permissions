@@ -10,20 +10,23 @@ class SimplePermissions {
       _channel.invokeMethod('getPlatformVersion');
 
   /// Check a [permission] and return a [Future] with the result
-  static Future<bool> checkPermission(Permission permission) {
-    return _channel.invokeMethod(
+  static Future<bool> checkPermission(Permission permission) async  {
+    final bool isGranted = await _channel.invokeMethod(
         "checkPermission", {"permission": getPermissionString(permission)});
+    return isGranted;
   }
 
   /// Request a [permission] and return a [Future] with the result
-  static Future<bool> requestPermission(Permission permission) {
-    return _channel.invokeMethod(
+  static Future<bool> requestPermission(Permission permission) async {
+    final bool isGranted = await _channel.invokeMethod(
         "requestPermission", {"permission": getPermissionString(permission)});
+    return isGranted;
   }
 
   /// Open app settings on Android and iOs
-  static Future<bool> openSettings() {
-    return _channel.invokeMethod("openSettings");
+  static Future<bool> openSettings() async {
+    final bool isOpen = await _channel.invokeMethod("openSettings");
+    return isOpen;
   }
 }
 
