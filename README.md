@@ -40,6 +40,11 @@ enum Permission {
 }
 ```
 
+```dart
+/// Permissions status enum (iOs)
+enum PermissionStatus { notDetermined, restricted, denied, authorized }
+```
+
 ### Methods
 ```dart
   /// Check a [permission] and return a [Future] with the result
@@ -50,4 +55,7 @@ enum Permission {
 
   /// Open app settings on Android and iOs
   static Future<bool> openSettings();
+  
+  /// Get iOs permission status 
+  static Future<PermissionStatus> getPermissionStatus(Permission permission)
 ```
