@@ -38,9 +38,9 @@ class SimplePermissions {
       case 0:
         return PermissionStatus.notDetermined;
       case 1:
-        return PermissionStatus.denied;
-      case 2:
         return PermissionStatus.restricted;
+      case 2:
+        return PermissionStatus.denied;
       case 3:
         return PermissionStatus.authorized;
       default:
