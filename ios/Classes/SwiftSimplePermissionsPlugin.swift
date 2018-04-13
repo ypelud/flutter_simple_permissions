@@ -23,6 +23,10 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             let permission = dic!["permission"] as! String;
             checkPermission(permission, result: result);
             break;
+        case "getPermissionStatus":
+            let permission = dic!["permission"] as! String
+            getPermissionStatus(permission, result: result)
+            break
         case "requestPermission":
             let permission = dic!["permission"] as! String;
             requestPermission(permission, result: result);
@@ -91,6 +95,41 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         }
     }
     
+    private func getPermissionStatus (_ permission: String, result: @escaping FlutterResult) {
+        switch(permission) {
+        case "RECORD_AUDIO":
+            result(getAudioPermissionStatus().rawValue)
+            break;
+        case "CAMERA":
+            result(getCameraPermissionStatus().rawValue)
+            break;
+        case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
+            let status = CLLocationManager.authorizationStatus()
+            if (status == .authorizedAlways || status == .authorizedWhenInUse) {
+                 result(3)
+            }
+            else {
+                result(status.rawValue)
+            }
+            break;
+        case "ALWAYS_LOCATION":
+            let status = CLLocationManager.authorizationStatus()
+            if (status == .authorizedAlways) {
+                result(3)
+            }
+            else if (status == .authorizedWhenInUse) {
+                result(1)
+            }
+            else {
+                result(status.rawValue)
+            }
+            break;
+        default:
+            result(FlutterMethodNotImplemented);
+            break;
+        }
+    }
+    
     private func checkLocationAlwaysPermission() -> Bool {
         return CLLocationManager.authorizationStatus() == .authorizedAlways;
     }
@@ -138,8 +177,11 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
     }
     
     private func checkAudioPermission() -> Bool {
-        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio);
-        return authStatus == .authorized;
+        return getAudioPermissionStatus() == .authorized;
+    }
+    
+    private func getAudioPermissionStatus() -> AVAuthorizationStatus {
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.audio);
     }
     
     private func requestAudioPermission(result: @escaping FlutterResult) -> Void {
@@ -151,9 +193,13 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
     }
     
     private func checkCameraPermission()-> Bool {
-        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video);
-        return authStatus == .authorized;
+      return getCameraPermissionStatus() == .authorized;
     }
+    
+    private func getCameraPermissionStatus() -> AVAuthorizationStatus {
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video);
+    }
+    
     
     private func requestCameraPermission(result: @escaping FlutterResult) -> Void {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
