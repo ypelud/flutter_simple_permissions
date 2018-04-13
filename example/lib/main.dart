@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
             new DropdownButton(items: _getDropDownItems(), value: permission, onChanged: onDropDownChanged),
             new RaisedButton(onPressed: checkPermission, child: new Text("Check permission")),
             new RaisedButton(onPressed: requestPermission, child: new Text("Request permission")),
+            new RaisedButton(onPressed: getPermissionStatus, child: new Text("Get permission status")),
             new RaisedButton(onPressed: SimplePermissions.openSettings, child: new Text("Open settings"))
           ]),
         ),
@@ -72,6 +73,11 @@ class _MyAppState extends State<MyApp> {
   checkPermission() async {
    bool res = await SimplePermissions.checkPermission(permission);
    print("permission is " + res.toString());
+  }
+
+  getPermissionStatus() async {
+    final res = await SimplePermissions.getPermissionStatus(permission);
+    print("permission status is " + res.toString());
   }
 
   List<DropdownMenuItem<Permission>>_getDropDownItems() {

@@ -46,6 +46,10 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
             case "getPlatformVersion":
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
                 break;
+            case "getPermissionStatus":
+                permission = call.argument("permission");
+                int value = checkPermission(permission) ? 3 : 1;
+                result.success(value);
             case "checkPermission":
                 permission = call.argument("permission");
                 result.success(checkPermission(permission));

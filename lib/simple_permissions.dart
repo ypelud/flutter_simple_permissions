@@ -10,7 +10,7 @@ class SimplePermissions {
       _channel.invokeMethod('getPlatformVersion');
 
   /// Check a [permission] and return a [Future] with the result
-  static Future<bool> checkPermission(Permission permission) async  {
+  static Future<bool> checkPermission(Permission permission) async {
     final bool isGranted = await _channel.invokeMethod(
         "checkPermission", {"permission": getPermissionString(permission)});
     return isGranted;
@@ -26,7 +26,26 @@ class SimplePermissions {
   /// Open app settings on Android and iOs
   static Future<bool> openSettings() async {
     final bool isOpen = await _channel.invokeMethod("openSettings");
+
     return isOpen;
+  }
+
+  static Future<PermissionStatus> getPermissionStatus(
+      Permission permission) async {
+    final int status = await _channel.invokeMethod(
+        "getPermissionStatus", {"permission": getPermissionString(permission)});
+    switch (status) {
+      case 0:
+        return PermissionStatus.notDetermined;
+      case 1:
+        return PermissionStatus.denied;
+      case 2:
+        return PermissionStatus.restricted;
+      case 3:
+        return PermissionStatus.authorized;
+      default:
+        return PermissionStatus.notDetermined;
+    }
   }
 }
 
@@ -40,6 +59,9 @@ enum Permission {
   WhenInUseLocation,
   AlwaysLocation
 }
+
+/// Permissions status enum (iOs)
+enum PermissionStatus { notDetermined, restricted, denied, authorized }
 
 String getPermissionString(Permission permission) {
   String res;
