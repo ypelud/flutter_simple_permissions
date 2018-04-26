@@ -102,6 +102,12 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
             case "ALWAYS_LOCATION":
                 res = Manifest.permission.ACCESS_FINE_LOCATION;
                 break;
+            case "READ_CONTACTS":
+                res = Manifest.permission.READ_CONTACTS;
+                break;
+            case "WRITE_CONTACTS":
+                res = Manifest.permission.WRITE_CONTACTS;
+                break;
             default:
                 res = "ERROR";
                 break;
