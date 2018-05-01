@@ -57,7 +57,9 @@ enum Permission {
   AccessCoarseLocation,
   AccessFineLocation,
   WhenInUseLocation,
-  AlwaysLocation
+  AlwaysLocation,
+  ReadContacts,
+  WriteContacts
 }
 
 /// Permissions status enum (iOs)
@@ -87,8 +89,12 @@ String getPermissionString(Permission permission) {
     case Permission.AlwaysLocation:
       res = "ALWAYS_LOCATION";
       break;
-    default:
-      res = "ERROR";
+    case Permission.ReadContacts:
+      res = "READ_CONTACTS";
+      break;
+    case Permission.WriteContacts:
+      res = "WRITE_CONTACTS";
+      break;
   }
   return res;
 }
