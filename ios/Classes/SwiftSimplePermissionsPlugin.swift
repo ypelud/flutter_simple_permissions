@@ -2,6 +2,7 @@ import Flutter
 import UIKit
 import AVFoundation
 import CoreLocation
+import Contacts
 
 public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationManagerDelegate {
     var whenInUse = false;
@@ -53,6 +54,8 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
         }
         
     }
+    
+    // Request permission
     private func requestPermission(_ permission: String, result: @escaping FlutterResult) {
         switch(permission) {
         case "RECORD_AUDIO":
@@ -69,12 +72,16 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
             self.result = result;
             requestLocationAlwaysPermission();
             break;
+        case "READ_CONTACTS", "WRITE_CONTACTS":
+            requestContactPermission(result: result)
+            break;
         default:
             result(FlutterMethodNotImplemented);
             break;
         }
     }
     
+    // Check permissions
     private func checkPermission(_ permission: String, result: @escaping FlutterResult) {
         switch(permission) {
         case "RECORD_AUDIO":
@@ -86,6 +93,9 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
             result(checkLocationWhenInUsePermission());
             break;
+        case "READ_CONTACTS", "WRITE_CONTACTS":
+            result(checkContactPermission())
+            break;
         case "ALWAYS_LOCATION":
             result(checkLocationAlwaysPermission());
             break;
@@ -95,10 +105,14 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         }
     }
     
+    // Get permissions status
     private func getPermissionStatus (_ permission: String, result: @escaping FlutterResult) {
         switch(permission) {
         case "RECORD_AUDIO":
             result(getAudioPermissionStatus().rawValue)
+            break;
+        case "READ_CONTACTS", "WRITE_CONTACTS":
+            result(getContactPermissionStatus().rawValue)
             break;
         case "CAMERA":
             result(getCameraPermissionStatus().rawValue)
@@ -130,6 +144,8 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         }
     }
     
+    //-----------------------------------------
+    // Location
     private func checkLocationAlwaysPermission() -> Bool {
         return CLLocationManager.authorizationStatus() == .authorizedAlways;
     }
@@ -176,6 +192,25 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         }
     }
     
+    //-----------------------------
+    // Contact
+    
+    private func getContactPermissionStatus() -> CNAuthorizationStatus {
+       return CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+    }
+    
+    private func checkContactPermission() -> Bool {
+        return getContactPermissionStatus() == .authorized
+    }
+    
+    private func requestContactPermission(result: @escaping FlutterResult) -> Void {
+        CNContactStore().requestAccess(for: CNEntityType.contacts) { (access, error) in
+            result(access)
+        }
+    }
+    
+    //---------------------------------
+    // Audio
     private func checkAudioPermission() -> Bool {
         return getAudioPermissionStatus() == .authorized;
     }
@@ -192,6 +227,8 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         }
     }
     
+    //-----------------------------------
+    // Camera
     private func checkCameraPermission()-> Bool {
       return getCameraPermissionStatus() == .authorized;
     }

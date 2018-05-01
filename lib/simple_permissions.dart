@@ -6,8 +6,10 @@ class SimplePermissions {
   static const MethodChannel _channel =
       const MethodChannel('simple_permissions');
 
-  static Future<String> get platformVersion =>
-      _channel.invokeMethod('getPlatformVersion');
+  static Future<String> get platformVersion async {
+      final String platform = await _channel.invokeMethod('getPlatformVersion');
+      return platform;
+  }
 
   /// Check a [permission] and return a [Future] with the result
   static Future<bool> checkPermission(Permission permission) async {

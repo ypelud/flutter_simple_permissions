@@ -4,19 +4,19 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `Pods/.symlinks/flutter/ios-release`)
-  - simple_permissions (from `Pods/.symlinks/plugins/flutter_simple_permissions/ios`)
+  - Flutter (from `Pods/.symlinks/flutter/ios`)
+  - simple_permissions (from `Pods/.symlinks/plugins/simple_permissions/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: Pods/.symlinks/flutter/ios-release
+    :path: Pods/.symlinks/flutter/ios
   simple_permissions:
-    :path: Pods/.symlinks/plugins/flutter_simple_permissions/ios
+    :path: Pods/.symlinks/plugins/simple_permissions/ios
 
 SPEC CHECKSUMS:
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
-  simple_permissions: 95deb61e1b29da91d87ce58ab5297dd70cf92f75
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  simple_permissions: 7b655133eecb5dd18d5f0326e847c46f8d440576
 
-PODFILE CHECKSUM: 793ca17cc5488c2bdeb7f2f95b973a070492cf02
+PODFILE CHECKSUM: 9379b13f6da7efcb6e607ca3a24796e1929fe0a5
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.0

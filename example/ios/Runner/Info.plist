@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Use camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Use contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use location any case</string>
 	<key>NSLocationAlwaysUsageDescription</key>
