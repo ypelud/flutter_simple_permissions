@@ -23,7 +23,10 @@ enum Permission {
   // Camera
   Camera,
 
-  // External Storage
+  // Read External Storage (Android)
+  ReadExternalStorage
+
+  // Write External Storage (Android)
   WriteExternalStorage,
 
   // Access Coarse Location (Android) / When In Use iOS

@@ -1,3 +1,6 @@
+## [0.1.4] - 11.05.2018
+* Added Read External Storage (Android)
+
 ## [0.1.3] - 01.05.2018
 * Added contact permission
 
