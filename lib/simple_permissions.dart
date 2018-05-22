@@ -62,6 +62,7 @@ enum Permission {
   WhenInUseLocation,
   AlwaysLocation,
   ReadContacts,
+  Vibrate,
   WriteContacts
 }
 
@@ -97,6 +98,9 @@ String getPermissionString(Permission permission) {
       break;
     case Permission.ReadContacts:
       res = "READ_CONTACTS";
+      break;
+    case Permission.Vibrate:
+      res = "VIBRATE";
       break;
     case Permission.WriteContacts:
       res = "WRITE_CONTACTS";
