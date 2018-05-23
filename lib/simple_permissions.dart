@@ -7,8 +7,8 @@ class SimplePermissions {
       const MethodChannel('simple_permissions');
 
   static Future<String> get platformVersion async {
-      final String platform = await _channel.invokeMethod('getPlatformVersion');
-      return platform;
+    final String platform = await _channel.invokeMethod('getPlatformVersion');
+    return platform;
   }
 
   /// Check a [permission] and return a [Future] with the result
@@ -56,11 +56,13 @@ enum Permission {
   RecordAudio,
   Camera,
   WriteExternalStorage,
+  ReadExternalStorage,
   AccessCoarseLocation,
   AccessFineLocation,
   WhenInUseLocation,
   AlwaysLocation,
   ReadContacts,
+  Vibrate,
   WriteContacts
 }
 
@@ -79,6 +81,9 @@ String getPermissionString(Permission permission) {
     case Permission.WriteExternalStorage:
       res = "WRITE_EXTERNAL_STORAGE";
       break;
+    case Permission.ReadExternalStorage:
+      res = "READ_EXTERNAL_STORAGE";
+      break;
     case Permission.AccessFineLocation:
       res = "ACCESS_FINE_LOCATION";
       break;
@@ -93,6 +98,9 @@ String getPermissionString(Permission permission) {
       break;
     case Permission.ReadContacts:
       res = "READ_CONTACTS";
+      break;
+    case Permission.Vibrate:
+      res = "VIBRATE";
       break;
     case Permission.WriteContacts:
       res = "WRITE_CONTACTS";

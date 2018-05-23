@@ -23,10 +23,13 @@ enum Permission {
   // Camera
   Camera,
 
-  // External Storage
+  // Read External Storage (Android)
+  ReadExternalStorage
+
+  // Write External Storage (Android)
   WriteExternalStorage,
 
-  // Access Coarse Location (Android) / When In Use iOs
+  // Access Coarse Location (Android) / When In Use iOS
   AccessCoarseLocation,
 
   // Access Fine Location (Android) / When In Use iOS
@@ -35,13 +38,19 @@ enum Permission {
   // Access Fine Location (Android) / When In Use iOS
   WhenInUseLocation,
 
-  // Access Fine Location (Android) / Always Location iOS  
+  // Access Fine Location (Android) / Always Location iOS
   AlwaysLocation
+
+  // Write contacts (Android) / Contacts iOS
+  WriteContacts
+
+  // Read contacts (Android) / Contacts iOS
+  ReadContacts
 }
 ```
 
 ```dart
-/// Permissions status enum (iOs)
+/// Permissions status enum (iOS)
 enum PermissionStatus { notDetermined, restricted, denied, authorized }
 ```
 
@@ -53,7 +62,7 @@ enum PermissionStatus { notDetermined, restricted, denied, authorized }
   /// Request a [permission] and return a [Future] with the result
   static Future<bool> requestPermission(Permission permission);
 
-  /// Open app settings on Android and iOs
+  /// Open app settings on Android and iOS
   static Future<bool> openSettings();
   
   /// Get iOs permission status 

@@ -90,6 +90,9 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
             case "WRITE_EXTERNAL_STORAGE":
                 res = Manifest.permission.WRITE_EXTERNAL_STORAGE;
                 break;
+            case "READ_EXTERNAL_STORAGE":
+                res = Manifest.permission.READ_EXTERNAL_STORAGE;
+                break;
             case "ACCESS_FINE_LOCATION":
                 res = Manifest.permission.ACCESS_FINE_LOCATION;
                 break;
@@ -104,6 +107,9 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
                 break;
             case "READ_CONTACTS":
                 res = Manifest.permission.READ_CONTACTS;
+                break;
+            case "VIBRATE":
+                res = Manifest.permission.VIBRATE;
                 break;
             case "WRITE_CONTACTS":
                 res = Manifest.permission.WRITE_CONTACTS;
