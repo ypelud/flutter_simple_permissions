@@ -1,3 +1,6 @@
+## [0.1.5] - 22.05.2018
+* Added Vibrate (Android)
+
 ## [0.1.4] - 11.05.2018
 * Added Read External Storage (Android)
 
