@@ -50,6 +50,7 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
                 permission = call.argument("permission");
                 int value = checkPermission(permission) ? 3 : 2;
                 result.success(value);
+                break;
             case "checkPermission":
                 permission = call.argument("permission");
                 result.success(checkPermission(permission));
