@@ -5,8 +5,8 @@ import CoreLocation
 import Contacts
 
 public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationManagerDelegate {
-    var whenInUse = false;
-    var result: FlutterResult? = nil;
+    var whenInUse = false
+    var result: FlutterResult? = nil
     var locationManager = CLLocationManager()
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -16,41 +16,51 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        locationManager.delegate = self;
-        let method = call.method;
-        let dic = call.arguments as? [String: Any];
+        locationManager.delegate = self
+        let method = call.method
+        let dic = call.arguments as? [String: Any]
+        
         switch(method) {
         case "checkPermission":
-            let permission = dic!["permission"] as! String;
-            checkPermission(permission, result: result);
-            break;
+            if let permission = dic?["permission"] as? String {
+                checkPermission(permission, result: result)
+            } else {
+                result(FlutterError(code: "permission missing", message: nil, details: nil))
+            }
+            
         case "getPermissionStatus":
-            let permission = dic!["permission"] as! String
-            getPermissionStatus(permission, result: result)
-            break
+            if let permission = dic?["permission"] as? String {
+                getPermissionStatus(permission, result: result)
+            } else {
+                result(FlutterError(code: "permission missing", message: nil, details: nil))
+            }
+            
         case "requestPermission":
-            let permission = dic!["permission"] as! String;
-            requestPermission(permission, result: result);
-            break;
+            if let permission = dic?["permission"] as? String {
+                requestPermission(permission, result: result)
+            } else {
+                result(FlutterError(code: "permission missing", message: nil, details: nil))
+            }
+            
         case "getPlatformVersion":
             result("iOS " + UIDevice.current.systemVersion)
-            break;
+            
         case "openSettings":
-            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     if #available(iOS 10.0, *) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                        result(true);
+                        result(true)
                     } else {
                         // Fallback on earlier versions
-                        result(FlutterMethodNotImplemented);
+                        result(FlutterMethodNotImplemented)
                     }
                 }
             }
-            break;
+            
         default:
-            result(FlutterMethodNotImplemented);
-            break;
+            result(FlutterMethodNotImplemented)
+            
         }
         
     }
@@ -59,25 +69,25 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
     private func requestPermission(_ permission: String, result: @escaping FlutterResult) {
         switch(permission) {
         case "RECORD_AUDIO":
-            requestAudioPermission(result: result);
-            break;
+            requestAudioPermission(result: result)
+            
         case "CAMERA":
-            requestCameraPermission(result: result);
-            break;
-case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
-            self.result = result;
-            requestLocationWhenInUsePermission();
-            break;
+            requestCameraPermission(result: result)
+            
+        case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
+            self.result = result
+            requestLocationWhenInUsePermission()
+            
         case "ALWAYS_LOCATION":
-            self.result = result;
-            requestLocationAlwaysPermission();
-            break;
+            self.result = result
+            requestLocationAlwaysPermission()
+            
         case "READ_CONTACTS", "WRITE_CONTACTS":
             requestContactPermission(result: result)
-            break;
+            
         default:
-            result(FlutterMethodNotImplemented);
-            break;
+            result(FlutterMethodNotImplemented)
+            
         }
     }
     
@@ -85,23 +95,23 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
     private func checkPermission(_ permission: String, result: @escaping FlutterResult) {
         switch(permission) {
         case "RECORD_AUDIO":
-            result(checkAudioPermission());
-            break;
+            result(checkAudioPermission())
+            
         case "CAMERA":
-            result(checkCameraPermission());
-            break;
+            result(checkCameraPermission())
+            
         case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
-            result(checkLocationWhenInUsePermission());
-            break;
+            result(checkLocationWhenInUsePermission())
+            
         case "READ_CONTACTS", "WRITE_CONTACTS":
             result(checkContactPermission())
-            break;
+            
         case "ALWAYS_LOCATION":
-            result(checkLocationAlwaysPermission());
-            break;
+            result(checkLocationAlwaysPermission())
+            
         default:
-            result(FlutterMethodNotImplemented);
-            break;
+            result(FlutterMethodNotImplemented)
+            
         }
     }
     
@@ -110,13 +120,13 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         switch(permission) {
         case "RECORD_AUDIO":
             result(getAudioPermissionStatus().rawValue)
-            break;
+            
         case "READ_CONTACTS", "WRITE_CONTACTS":
             result(getContactPermissionStatus().rawValue)
-            break;
+            
         case "CAMERA":
             result(getCameraPermissionStatus().rawValue)
-            break;
+            
         case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
             let status = CLLocationManager.authorizationStatus()
             if (status == .authorizedAlways || status == .authorizedWhenInUse) {
@@ -125,7 +135,7 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
             else {
                 result(status.rawValue)
             }
-            break;
+            
         case "ALWAYS_LOCATION":
             let status = CLLocationManager.authorizationStatus()
             if (status == .authorizedAlways) {
@@ -137,41 +147,41 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
             else {
                 result(status.rawValue)
             }
-            break;
+            
         default:
-            result(FlutterMethodNotImplemented);
-            break;
+            result(FlutterMethodNotImplemented)
+            
         }
     }
     
     //-----------------------------------------
     // Location
     private func checkLocationAlwaysPermission() -> Bool {
-        return CLLocationManager.authorizationStatus() == .authorizedAlways;
+        return CLLocationManager.authorizationStatus() == .authorizedAlways
     }
     
     private func checkLocationWhenInUsePermission() -> Bool {
-        let authStatus = CLLocationManager.authorizationStatus();
-        return  authStatus == .authorizedAlways  || authStatus == .authorizedWhenInUse;
+        let authStatus = CLLocationManager.authorizationStatus()
+        return  authStatus == .authorizedAlways  || authStatus == .authorizedWhenInUse
     }
     
     private func requestLocationWhenInUsePermission() -> Void {
         if (CLLocationManager.authorizationStatus() == .notDetermined) {
-            self.whenInUse = true;
-            locationManager.requestWhenInUseAuthorization();
+            self.whenInUse = true
+            locationManager.requestWhenInUseAuthorization()
         }
         else  {
-            self.result!(checkLocationWhenInUsePermission());
+            self.result?(checkLocationWhenInUsePermission())
         }
     }
     
     private func requestLocationAlwaysPermission() -> Void {
         if (CLLocationManager.authorizationStatus() == .notDetermined) {
-        self.whenInUse = false;
-        locationManager.requestAlwaysAuthorization();
+        self.whenInUse = false
+        locationManager.requestAlwaysAuthorization()
         }
         else  {
-            self.result!(checkLocationAlwaysPermission());
+            self.result?(checkLocationAlwaysPermission())
         }
     }
     
@@ -180,15 +190,14 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
         if (whenInUse)  {
             switch status {
             case .authorizedAlways, .authorizedWhenInUse:
-                self.result!(true);
-                break;
+                self.result?(true)
+                
             default:
-                self.result!(false);
-                break;
+                self.result?(false)
             }
         }
         else {
-            self.result!(status == .authorizedAlways)
+            self.result?(status == .authorizedAlways)
         }
     }
     
@@ -212,17 +221,17 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
     //---------------------------------
     // Audio
     private func checkAudioPermission() -> Bool {
-        return getAudioPermissionStatus() == .authorized;
+        return getAudioPermissionStatus() == .authorized
     }
     
     private func getAudioPermissionStatus() -> AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(for: AVMediaType.audio);
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
     }
     
     private func requestAudioPermission(result: @escaping FlutterResult) -> Void {
         if (AVAudioSession.sharedInstance().responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
             AVAudioSession.sharedInstance().requestRecordPermission({granted in
-                result(granted);
+                result(granted)
             })
         }
     }
@@ -230,17 +239,17 @@ case "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "WHEN_IN_USE_LOCATION":
     //-----------------------------------
     // Camera
     private func checkCameraPermission()-> Bool {
-      return getCameraPermissionStatus() == .authorized;
+      return getCameraPermissionStatus() == .authorized
     }
     
     private func getCameraPermissionStatus() -> AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video);
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
     }
     
     
     private func requestCameraPermission(result: @escaping FlutterResult) -> Void {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-            result(response);
+            result(response)
         }
     }
 }
