@@ -10,10 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
@@ -23,6 +23,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistry.RequestPermissionsResultListener {
     private Registrar registrar;
     private Result result;
+    private final int REQUEST_CODE = 10;
 
     /**
      * Plugin registration.
@@ -130,7 +131,7 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
         permission = getManifestPermission(permission);
         Log.i("SimplePermission", "Requesting permission : " + permission);
         String[] perm = {permission};
-        ActivityCompat.requestPermissions(activity, perm, 0);
+        ActivityCompat.requestPermissions(activity, perm, REQUEST_CODE);
     }
 
     private boolean checkPermission(String permission) {
@@ -143,7 +144,7 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
     @Override
     public boolean onRequestPermissionsResult(int requestCode, String[] strings, int[] grantResults) {
         boolean res = false;
-        if (requestCode == 0 && grantResults.length > 0) {
+        if (requestCode == REQUEST_CODE && grantResults.length > 0) {
             res = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             Log.i("SimplePermission", "Requesting permission result : " + res);
             result.success(res);
