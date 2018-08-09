@@ -10,3 +10,5 @@ packages
 pubspec.lock
 
 \.vscode/
+
+example/ios/\.symlinks/
