@@ -55,6 +55,7 @@ class SimplePermissions {
 enum Permission {
   RecordAudio,
   Camera,
+  PhotoLibrary,
   WriteExternalStorage,
   ReadExternalStorage,
   AccessCoarseLocation,
@@ -74,6 +75,9 @@ String getPermissionString(Permission permission) {
   switch (permission) {
     case Permission.Camera:
       res = "CAMERA";
+      break;
+    case Permission.PhotoLibrary:
+      res = "PHOTO_LIBRARY";
       break;
     case Permission.RecordAudio:
       res = "RECORD_AUDIO";
