@@ -19,10 +19,14 @@ class SimplePermissions {
   }
 
   /// Request a [permission] and return a [Future] with the result
-  static Future<bool> requestPermission(Permission permission) async {
-    final bool isGranted = await _channel.invokeMethod(
+  static Future<PermissionStatus> requestPermission(Permission permission) async {
+    final status = await _channel.invokeMethod(
         "requestPermission", {"permission": getPermissionString(permission)});
-    return isGranted;
+
+    return status is int ? intToPermissionStatus(status)
+        : status is bool
+        ? (status ? PermissionStatus.authorized : PermissionStatus.denied)
+        : PermissionStatus.notDetermined;
   }
 
   /// Open app settings on Android and iOs
@@ -36,6 +40,10 @@ class SimplePermissions {
       Permission permission) async {
     final int status = await _channel.invokeMethod(
         "getPermissionStatus", {"permission": getPermissionString(permission)});
+    return intToPermissionStatus(status);
+  }
+
+  static PermissionStatus intToPermissionStatus(int status){
     switch (status) {
       case 0:
         return PermissionStatus.notDetermined;
@@ -45,11 +53,14 @@ class SimplePermissions {
         return PermissionStatus.denied;
       case 3:
         return PermissionStatus.authorized;
+      case 4:
+        return PermissionStatus.deniedNeverAsk;
       default:
         return PermissionStatus.notDetermined;
     }
   }
 }
+
 
 /// Enum of all available [Permission]
 enum Permission {
@@ -67,8 +78,9 @@ enum Permission {
   WriteContacts
 }
 
-/// Permissions status enum (iOs)
-enum PermissionStatus { notDetermined, restricted, denied, authorized }
+/// Permissions status enum (iOs: notDetermined, restricted, denied, authorized, deniedNeverAsk)
+/// (Android: denied, authorized, deniedNeverAsk)
+enum PermissionStatus { notDetermined, restricted, denied, authorized, deniedNeverAsk/* android */ }
 
 String getPermissionString(Permission permission) {
   String res;

@@ -138,13 +138,26 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
     }
 
     @Override
-    public boolean onRequestPermissionsResult(int requestCode, String[] strings, int[] grantResults) {
-        boolean res = false;
+    public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        int status = 0;
+        String permission = permissions[0];
         if (requestCode == 0 && grantResults.length > 0) {
-            res = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            Log.i("SimplePermission", "Requesting permission result : " + res);
-            result.success(res);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(registrar.activity(), permission)) {
+                //denied
+                status = 2;
+            } else {
+                if (ActivityCompat.checkSelfPermission(registrar.context(), permission) == PackageManager.PERMISSION_GRANTED) {
+                    //allowed
+                    status = 3;
+                } else {
+                    //set to never ask again
+                    Log.e("SimplePermission", "set to never ask again" + permission);
+                    status = 4;
+                }
+            }
         }
-        return res;
+        Log.i("SimplePermission", "Requesting permission status : " + status);
+        result.success(status);
+        return status == 3;
     }
 }
