@@ -10,10 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
@@ -84,6 +84,9 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
         switch (permission) {
             case "RECORD_AUDIO":
                 res = Manifest.permission.RECORD_AUDIO;
+                break;
+            case "CALL_PHONE":
+                res = Manifest.permission.CALL_PHONE;
                 break;
             case "CAMERA":
                 res = Manifest.permission.CAMERA;
