@@ -54,6 +54,7 @@ class SimplePermissions {
 /// Enum of all available [Permission]
 enum Permission {
   RecordAudio,
+  CallPhone,
   Camera,
   PhotoLibrary,
   WriteExternalStorage,
@@ -74,6 +75,9 @@ enum PermissionStatus { notDetermined, restricted, denied, authorized }
 String getPermissionString(Permission permission) {
   String res;
   switch (permission) {
+    case Permission.CallPhone:
+      res = "CALL_PHONE";
+      break;
     case Permission.Camera:
       res = "CAMERA";
       break;

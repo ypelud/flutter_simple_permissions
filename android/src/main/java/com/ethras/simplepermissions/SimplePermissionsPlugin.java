@@ -85,6 +85,9 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
             case "RECORD_AUDIO":
                 res = Manifest.permission.RECORD_AUDIO;
                 break;
+            case "CALL_PHONE":
+                res = Manifest.permission.CALL_PHONE;
+                break;
             case "CAMERA":
                 res = Manifest.permission.CAMERA;
                 break;
