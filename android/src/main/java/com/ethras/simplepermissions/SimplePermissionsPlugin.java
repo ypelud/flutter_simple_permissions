@@ -10,10 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
@@ -93,6 +93,9 @@ public class SimplePermissionsPlugin implements MethodCallHandler, PluginRegistr
                 break;
             case "READ_EXTERNAL_STORAGE":
                 res = Manifest.permission.READ_EXTERNAL_STORAGE;
+                break;
+            case "READ_PHONE_STATE":
+                res = Manifest.permission.READ_PHONE_STATE;
                 break;
             case "ACCESS_FINE_LOCATION":
                 res = Manifest.permission.ACCESS_FINE_LOCATION;
