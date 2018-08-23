@@ -58,6 +58,7 @@ enum Permission {
   PhotoLibrary,
   WriteExternalStorage,
   ReadExternalStorage,
+  ReadPhoneState,
   AccessCoarseLocation,
   AccessFineLocation,
   WhenInUseLocation,
@@ -87,6 +88,9 @@ String getPermissionString(Permission permission) {
       break;
     case Permission.ReadExternalStorage:
       res = "READ_EXTERNAL_STORAGE";
+      break;
+    case Permission.ReadPhoneState:
+      res = "READ_PHONE_STATE";
       break;
     case Permission.AccessFineLocation:
       res = "ACCESS_FINE_LOCATION";
