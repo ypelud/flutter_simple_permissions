@@ -90,6 +90,8 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             requestContactPermission(result: result)
             
         case "READ_SMS":
+            result("ready")
+            
         case "SEND_SMS":
             result("ready")
             
@@ -120,6 +122,8 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             result(checkLocationAlwaysPermission())
           
         case "READ_SMS":
+            result(true)
+            
         case "SEND_SMS":
             result(true)
         default:
@@ -165,6 +169,8 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             }
             
         case "READ_SMS":
+            result(true)
+            
         case "SEND_SMS":
             result(true)
             
