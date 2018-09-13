@@ -89,6 +89,10 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
         case "READ_CONTACTS", "WRITE_CONTACTS":
             requestContactPermission(result: result)
             
+        case "READ_SMS":
+        case "SEND_SMS":
+            result("ready")
+            
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -114,7 +118,10 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             
         case "ALWAYS_LOCATION":
             result(checkLocationAlwaysPermission())
-            
+          
+        case "READ_SMS":
+        case "SEND_SMS":
+            result(true)
         default:
             result(FlutterMethodNotImplemented)
             
@@ -156,6 +163,10 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             else {
                 result(status.rawValue)
             }
+            
+        case "READ_SMS":
+        case "SEND_SMS":
+            result(true)
             
         default:
             result(FlutterMethodNotImplemented)
