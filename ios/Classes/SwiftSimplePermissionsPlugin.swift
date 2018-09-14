@@ -169,10 +169,10 @@ public class SwiftSimplePermissionsPlugin: NSObject, FlutterPlugin, CLLocationMa
             }
             
         case "READ_SMS":
-            result(true)
+            result(1)
             
         case "SEND_SMS":
-            result(true)
+            result(1)
             
         default:
             result(FlutterMethodNotImplemented)
