@@ -19,14 +19,16 @@ class SimplePermissions {
   }
 
   /// Request a [permission] and return a [Future] with the result
-  static Future<PermissionStatus> requestPermission(Permission permission) async {
+  static Future<PermissionStatus> requestPermission(
+      Permission permission) async {
     final status = await _channel.invokeMethod(
         "requestPermission", {"permission": getPermissionString(permission)});
 
-    return status is int ? intToPermissionStatus(status)
+    return status is int
+        ? intToPermissionStatus(status)
         : status is bool
-        ? (status ? PermissionStatus.authorized : PermissionStatus.denied)
-        : PermissionStatus.notDetermined;
+            ? (status ? PermissionStatus.authorized : PermissionStatus.denied)
+            : PermissionStatus.notDetermined;
   }
 
   /// Open app settings on Android and iOs
@@ -43,7 +45,7 @@ class SimplePermissions {
     return intToPermissionStatus(status);
   }
 
-  static PermissionStatus intToPermissionStatus(int status){
+  static PermissionStatus intToPermissionStatus(int status) {
     switch (status) {
       case 0:
         return PermissionStatus.notDetermined;
@@ -61,7 +63,6 @@ class SimplePermissions {
   }
 }
 
-
 /// Enum of all available [Permission]
 enum Permission {
   RecordAudio,
@@ -77,13 +78,20 @@ enum Permission {
   AlwaysLocation,
   ReadContacts,
   ReadSms,
+  SendSMS,
   Vibrate,
   WriteContacts
 }
 
 /// Permissions status enum (iOs: notDetermined, restricted, denied, authorized, deniedNeverAsk)
 /// (Android: denied, authorized, deniedNeverAsk)
-enum PermissionStatus { notDetermined, restricted, denied, authorized, deniedNeverAsk/* android */ }
+enum PermissionStatus {
+  notDetermined,
+  restricted,
+  denied,
+  authorized,
+  deniedNeverAsk /* android */
+}
 
 String getPermissionString(Permission permission) {
   String res;
@@ -123,6 +131,9 @@ String getPermissionString(Permission permission) {
       break;
     case Permission.ReadContacts:
       res = "READ_CONTACTS";
+      break;
+    case Permission.SendSMS:
+      res = "SEND_SMS";
       break;
     case Permission.ReadSms:
       res = "READ_SMS";

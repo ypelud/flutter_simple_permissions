@@ -1,3 +1,6 @@
+## [0.1.7] - 11.09.2018
+* Android Send SMS
+
 ## [0.1.6] - 10.08.2018
 * See commits for changelogs
 
