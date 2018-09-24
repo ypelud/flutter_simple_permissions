@@ -1,3 +1,6 @@
+## [0.1.8] - 24.09.2018
+* Targeting Android API 27
+
 ## [0.1.7] - 11.09.2018
 * Android Send SMS
 
